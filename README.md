@@ -34,9 +34,16 @@ This project leverages an **n8n automation workflow** to streamline the process 
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/yourusername/ai-event-scheduler.git
-   cd ai-event-scheduler
+   git clone https://github.com/Vijayvarma/AI-Event-Scheduler.git
+   cd AI-Event-Scheduler
 ## Here are the Snap-Shots
 
 ![image](https://github.com/user-attachments/assets/7c689e56-910d-4995-ab21-5c6bb6d208f5)
+
+## Here is the WorkFlow
+
+
+
+
+https://github.com/user-attachments/assets/b47ff1b9-98a0-487d-a7ad-32de8e60b7ec
 
