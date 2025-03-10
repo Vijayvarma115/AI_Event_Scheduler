@@ -36,7 +36,7 @@ This project leverages an **n8n automation workflow** to streamline the process 
    ```bash
    git clone https://github.com/Vijayvarma/AI-Event-Scheduler.git
    cd AI-Event-Scheduler
-## Here are the Snap-Shots
+## Here are the Snap-Shot
 
 ![image](https://github.com/user-attachments/assets/7c689e56-910d-4995-ab21-5c6bb6d208f5)
 
