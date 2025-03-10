@@ -1,0 +1,339 @@
+{
+  "name": "Event Scheduler and retrivel",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        200,
+        -560
+      ],
+      "id": "4325c2f8-ad0f-4896-8825-1e9664ff3ba0",
+      "name": "When chat message received",
+      "webhookId": "fe85b8e9-80ad-40d7-af62-c14b9b523094"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are a helpful assistant\nTime Now {{ $now }}\n\n##RULES\nAll dates must be structured accord to this structure:02/20/2025.In other words,it must be MM/DD/YYYY"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        420,
+        -560
+      ],
+      "id": "82d6d5e8-7a59-4408-b888-aa19b74ca12c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        180,
+        -280
+      ],
+      "id": "6b6b51aa-53c3-4477-97d8-465f2f5e4b9c",
+      "name": "Google Gemini Chat Model",
+      "notesInFlow": false,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2LZG33GriqYn8Nw4",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        360,
+        -240
+      ],
+      "id": "ff8e4ecd-217e-44fd-9828-2ce7f0781140",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "stephendakota43@gmail.com",
+          "mode": "list",
+          "cachedResultName": "stephendakota43@gmail.com"
+        },
+        "start": "={{ $fromAI(\"startTime\",\"This is the start time of the event \") }}",
+        "end": "={{ $fromAI(\"startTime\",\"This is the start time of the event \") }}",
+        "additionalFields": {
+          "summary": "={{ $fromAI(\"summary\",\"This is the summary/title of the event \") }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        -300
+      ],
+      "id": "8e4e57ec-2077-40d5-b16f-d4e489aca37c",
+      "name": "Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "KesjgL6kYLHshOxT",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "stephendakota43@gmail.com",
+          "mode": "list",
+          "cachedResultName": "stephendakota43@gmail.com"
+        },
+        "timeMin": "={{ $fromAI(\"afterDate\",\"This is the time the user wants to search for events past\") }}",
+        "timeMax": "={{ $fromAI(\"beforeDate\",\"This is the time the user wants to search for events before\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        -320
+      ],
+      "id": "52f24ede-f95c-4cc5-9f5f-0058c50ae0b0",
+      "name": "Google Calendar1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "KesjgL6kYLHshOxT",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15CqsyX8Hx9MggmFrTaZblViAj7LiuSvGtF8NIrbPtMQ",
+          "mode": "list",
+          "cachedResultName": "n8n Test Task",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15CqsyX8Hx9MggmFrTaZblViAj7LiuSvGtF8NIrbPtMQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15CqsyX8Hx9MggmFrTaZblViAj7LiuSvGtF8NIrbPtMQ/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "DueDate",
+              "lookupValue": "={{ $fromAI(\"dueDate\",\"The date date of the task is due on\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1080,
+        -340
+      ],
+      "id": "1eb25d46-fed1-416a-a787-0320b6061fc5",
+      "name": "Retrive the Events from the sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "o70Umidc3i40uuNr",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "15CqsyX8Hx9MggmFrTaZblViAj7LiuSvGtF8NIrbPtMQ",
+          "mode": "list",
+          "cachedResultName": "n8n Test Task",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15CqsyX8Hx9MggmFrTaZblViAj7LiuSvGtF8NIrbPtMQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15CqsyX8Hx9MggmFrTaZblViAj7LiuSvGtF8NIrbPtMQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "TaskName": "={{ $fromAI(\"taskName\",\"this is the name of the task\") }}",
+            "Description": "={{ $fromAI(\"taskDescription\",\"this is the description of the task\") }}",
+            "DueDate": "={{ $fromAI(\"taskdueDate\",\"this is the dueDate of the task\")  }}",
+            "Priority": "={{ $fromAI(\"taskPriority\",\"this is the priority of the task.Please choose the priority from this list:Low,Medium,High.\") }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "TaskName",
+              "displayName": "TaskName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DueDate",
+              "displayName": "DueDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        880,
+        -340
+      ],
+      "id": "fded86d9-fb06-4473-ba3d-a20c999d5afc",
+      "name": "Google Sheets Append the events",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "o70Umidc3i40uuNr",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrive the Events from the sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Append the events": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "36c03d38-ca15-4a6c-8b18-5cd6abf4d267",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0fb6eae296f726d8b2f6a68ae3713597c244f5fc68748e9daf3b1fe77d8f2d43"
+  },
+  "id": "UTEiswCYSljgoYrE",
+  "tags": []
+}
