@@ -28,7 +28,6 @@ This project leverages an **n8n automation workflow** to streamline the process 
 - **n8n Workflow Automation:** Ensure you have an active n8n instance.
 - **Google API Credentials:** Required for both Google Calendar and Google Sheets.
 - **AI Agent Credentials:** Set up for the Google Gemini Chat Model integration.
-- **Node.js Environment:** For any additional customizations.
 
 ## Setup Instructions
 
@@ -37,4 +36,7 @@ This project leverages an **n8n automation workflow** to streamline the process 
    ```bash
    git clone https://github.com/yourusername/ai-event-scheduler.git
    cd ai-event-scheduler
- 
+## Here are the Snap-Shots
+
+![image](https://github.com/user-attachments/assets/7c689e56-910d-4995-ab21-5c6bb6d208f5)
+
